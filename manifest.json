@@ -1,0 +1,24 @@
+
+{
+  "name": "Naga Samba - Church Companion",
+  "short_name": "Naga Samba",
+  "description": "Discover Catholic churches, Mass schedules, activities, and daily Bible verses in Naga City.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f5ef",
+  "theme_color": "#20543e",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

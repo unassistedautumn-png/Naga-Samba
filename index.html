@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Naga Samba | Your Faith. Your Community.</title>
+
+    <!-- PWA SETTINGS -->
+    <meta name="theme-color" content="#20543e">
+    <meta name="description" content="Discover Catholic churches, Mass schedules, activities, and Bible verses in Naga City.">
+
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="./icons/icon-192.png">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- LEAFLET MAP CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+
+<body>
+
+    <!-- WELCOME SCREEN -->
+    <section id="welcomeScreen" class="welcome-screen">
+
+        <div class="welcome-container">
+
+            <div class="welcome-icon">✝</div>
+
+            <h1>Naga Samba</h1>
+            <p class="tagline">Your Faith. Your Community.</p>
+
+            <p>
+                Discover Catholic churches, Mass schedules,
+                activities, and Bible verses in Naga City.
+            </p>
+
+            <form id="welcomeForm">
+
+                <label for="userName">Your Name</label>
+                <input
+                    type="text"
+                    id="userName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+                <label for="userLocation">City / Barangay</label>
+                <input
+                    type="text"
+                    id="userLocation"
+                    placeholder="Enter your city or barangay"
+                    required
+                >
+
+                <button type="submit">Get Started</button>
+
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- MAIN APPLICATION -->
+    <main id="mainApp" class="hidden">
+
+        <!-- HEADER -->
+        <header class="app-header">
+
+            <div class="header-brand">
+                <span class="brand-icon">✝</span>
+
+                <div>
+                    <h2>Naga Samba</h2>
+                    <p>Your Faith. Your Community.</p>
+                </div>
+            </div>
+
+            <div class="user-greeting">
+                Welcome, <span id="displayName">User</span>
+
+                <p id="displayLocation"></p>
+
+                <button type="button" id="profileBtn">
+                    Edit Profile
+                </button>
+            </div>
+
+        </header>
+
+
+        <!-- HOME PAGE -->
+        <section id="homeContent" class="page">
+
+            <div class="hero-section">
+
+                <h1>Welcome to Naga Samba</h1>
+
+                <p>
+                    Your guide to Catholic churches
+                    and faith communities in Naga City.
+                </p>
+
+                <button type="button"
+                        onclick="showPage('mapPage')">
+                    Explore Churches
+                </button>
+
+            </div>
+
+            <div class="home-grid">
+
+                <div class="feature-card"
+                     onclick="showPage('mapPage')">
+                    <div class="feature-icon">⛪</div>
+                    <h3>Church Map</h3>
+                    <p>Find Catholic churches in Naga City.</p>
+                </div>
+
+                <div class="feature-card"
+                     onclick="showPage('schedulePage')">
+                    <div class="feature-icon">🕊️</div>
+                    <h3>Mass Schedule</h3>
+                    <p>Check the Mass schedule of a church.</p>
+                </div>
+
+                <div class="feature-card"
+                     onclick="showPage('activitiesPage')">
+                    <div class="feature-icon">📅</div>
+                    <h3>Church Activities</h3>
+                    <p>Explore church events and activities.</p>
+                </div>
+
+                <div class="feature-card"
+                     onclick="showPage('versePage')">
+                    <div class="feature-icon">📖</div>
+                    <h3>Daily Bible Verse</h3>
+                    <p>Read and reflect on God's Word.</p>
+                </div>
+
+            </div>
+
+            <div class="home-verse">
+                <h2>Daily Bible Verse</h2>
+
+                <p id="verseText">
+                    Your word is a lamp for my feet,
+                    a light on my path.
+                </p>
+
+                <strong id="verseReference">
+                    Psalm 119:105
+                </strong>
+            </div>
+
+        </section>
+
+
+        <!-- CHURCH MAP PAGE -->
+        <section id="mapPage" class="page hidden">
+
+            <div class="page-heading">
+                <h1>Church Map</h1>
+                <p>
+                    Explore Catholic churches in Naga City,
+                    Camarines Sur.
+                </p>
+            </div>
+
+            <div class="map-layout">
+
+                <div class="church-list-container">
+
+                    <h3>Church Directory</h3>
+
+                    <!-- JavaScript fills this list -->
+                    <div id="churchDirectory"></div>
+
+                </div>
+
+                <div class="map-container">
+                    <div id="churchMap"></div>
+                </div>
+
+            </div>
+
+            <!-- SELECTED CHURCH INFORMATION -->
+            <div id="churchDetails" class="church-details">
+
+                <h2>Select a Church</h2>
+
+                <p>
+                    Choose a church from the directory
+                    or select a marker on the map.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MASS SCHEDULE PAGE -->
+        <section id="schedulePage" class="page hidden">
+
+            <div class="page-heading">
+                <h1>Mass Schedules</h1>
+                <p>
+                    View Mass schedule information
+                    for your selected church.
+                </p>
+            </div>
+
+            <div id="scheduleContent" class="content-card">
+
+                <p>
+                    Select a church from the Church Map
+                    to view its Mass schedule.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHURCH ACTIVITIES PAGE -->
+        <section id="activitiesPage" class="page hidden">
+
+            <div class="page-heading">
+                <h1>Church Activities</h1>
+                <p>
+                    Discover church events and announcements.
+                </p>
+            </div>
+
+            <div id="activitiesContent" class="content-card">
+
+                <p>
+                    Select a church from the Church Map
+                    to view its activities.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DAILY BIBLE VERSE PAGE -->
+        <section id="versePage" class="page hidden">
+
+            <div class="page-heading">
+                <h1>Daily Bible Verse</h1>
+                <p>
+                    Take a moment to reflect on God's Word.
+                </p>
+            </div>
+
+            <div class="verse-card">
+
+                <div class="verse-icon">📖</div>
+
+                <h2>Today's Bible Verse</h2>
+
+                <p id="fullVerse">
+                    Your word is a lamp for my feet,
+                    a light on my path.
+                </p>
+
+                <strong id="fullReference">
+                    Psalm 119:105
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="bottom-navigation">
+
+            <button type="button"
+                    class="nav-button"
+                    onclick="showPage('homePage')">
+                <span>🏠</span>
+                <small>Home</small>
+            </button>
+
+            <button type="button"
+                    class="nav-button"
+                    onclick="showPage('mapPage')">
+                <span>⛪</span>
+                <small>Churches</small>
+            </button>
+
+            <button type="button"
+                    class="nav-button"
+                    onclick="showPage('schedulePage')">
+                <span>🕊️</span>
+                <small>Mass</small>
+            </button>
+
+            <button type="button"
+                    class="nav-button"
+                    onclick="showPage('activitiesPage')">
+                <span>📅</span>
+                <small>Activities</small>
+            </button>
+
+            <button type="button"
+                    class="nav-button"
+                    onclick="showPage('versePage')">
+                <span>📖</span>
+                <small>Bible</small>
+            </button>
+
+        </nav>
+
+    </main>
+
+
+    <!-- LEAFLET MAP JAVASCRIPT -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- YOUR EXISTING JAVASCRIPT -->
+    <script src="script.js"></script>
+
+
+    <!-- PWA SERVICE WORKER -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("./service-worker.js")
+                    .then(function (registration) {
+                        console.log("Naga Samba PWA is ready!");
+                    })
+                    .catch(function (error) {
+                        console.error("Service Worker Error:", error);
+                    });
+            });
+        }
+    </script>
+
+</body>
+</html>
